@@ -1,1 +1,0 @@
-/* Example content for page.tsx */
