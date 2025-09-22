@@ -4,6 +4,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>YouTube Streamer</title>
+    <meta name="description" content="YouTube Streamer - YouTube वीडियो खोजें, देखें और प्रबंधित करें।">
+    <meta name="keywords" content="YouTube, वीडियो, खोज, ट्रेंडिंग, इतिहास, स्ट्रीम, भारतीय, मनोरंजन">
+    <meta name="author" content="Gemini">
+
     <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
@@ -123,6 +127,7 @@
                 <h1 class="text-2xl sm:text-3xl font-bold text-sky-600">YouTube स्ट्रीम</h1>
                 <nav class="flex items-center gap-4">
                     <a href="#" data-page="home" class="nav-link text-slate-600 hover:text-sky-600 font-medium dark:text-slate-400 dark:hover:text-sky-400">होम</a>
+                    <a href="#" data-page="trending" class="nav-link text-slate-600 hover:text-sky-600 font-medium dark:text-slate-400 dark:hover:text-sky-400">ट्रेंडिंग</a>
                     <a href="#" data-page="history" class="nav-link text-slate-600 hover:text-sky-600 font-medium dark:text-slate-400 dark:hover:text-sky-400">इतिहास</a>
                     <a href="#" data-page="about" class="nav-link text-slate-600 hover:text-sky-600 font-medium dark:text-slate-400 dark:hover:text-sky-400">हमारे बारे में</a>
                     <a href="#" data-page="privacy" class="nav-link text-slate-600 hover:text-sky-600 font-medium dark:text-slate-400 dark:hover:text-sky-400">प्राइवेसी</a>
@@ -140,92 +145,10 @@
             </div>
         </header>
 
-        <!-- Main Content Area (Video Player & Video List) -->
-        <main id="home-page" class="main-content">
-            <!-- Video Player Section -->
-            <div class="video-player-container bg-white dark:bg-slate-800 p-4 rounded-xl shadow-lg transition-colors">
-                <div class="relative w-full aspect-video rounded-xl overflow-hidden">
-                    <iframe id="video-player" class="absolute top-0 left-0 w-full h-full" src="" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-                </div>
-                <div id="video-details" class="mt-4 hidden">
-                    <h2 id="video-title" class="text-xl font-bold text-slate-900 dark:text-slate-100"></h2>
-                    <p id="channel-name" class="text-slate-600 dark:text-slate-400 mt-1"></p>
-                    
-                    <!-- New Buttons Section for Like, Share, Download -->
-                    <div class="flex items-center gap-4 mt-4">
-                        <button id="like-button" class="flex items-center gap-1.5 p-2 rounded-full text-slate-600 hover:bg-slate-200 dark:text-slate-400 dark:hover:bg-slate-700 transition-colors">
-                            <i class="fas fa-thumbs-up"></i>
-                            <span>लाइक</span>
-                        </button>
-                        <button id="share-button" class="flex items-center gap-1.5 p-2 rounded-full text-slate-600 hover:bg-slate-200 dark:text-slate-400 dark:hover:bg-slate-700 transition-colors">
-                            <i class="fas fa-share"></i>
-                            <span>शेयर</span>
-                        </button>
-                        <button id="copy-link-button" class="flex items-center gap-1.5 p-2 rounded-full text-slate-600 hover:bg-slate-200 dark:text-slate-400 dark:hover:bg-slate-700 transition-colors">
-                            <i class="fas fa-link"></i>
-                            <span>लिंक कॉपी करें</span>
-                        </button>
-                    </div>
-
-                    <!-- Description Dropdown Section -->
-                    <div class="mt-4 border-t pt-4 border-slate-200 dark:border-slate-700">
-                        <button id="description-toggle" class="flex justify-between items-center w-full text-left font-semibold text-slate-800 dark:text-slate-200 focus:outline-none">
-                            <span>विवरण</span>
-                            <i id="toggle-icon" class="fas fa-chevron-down text-sm"></i>
-                        </button>
-                        <div id="description-wrapper" class="description-content">
-                            <p id="video-description" class="text-slate-500 dark:text-slate-400 text-sm mt-2 whitespace-pre-wrap"></p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Video List Section -->
-            <div class="video-list-container bg-white dark:bg-slate-800 p-4 rounded-xl shadow-lg transition-colors">
-                <h2 class="text-xl font-bold mb-4">वीडियो परिणाम</h2>
-                <div id="video-list" class="flex flex-col gap-4 scrollable-list">
-                    <!-- Dynamic video thumbnails will be inserted here by JavaScript -->
-                    <p id="loading-message" class="text-center text-slate-500 hidden dark:text-slate-400">खोज रहा है...</p>
-                    <p id="no-results-message" class="text-center text-slate-500 hidden dark:text-slate-400">कोई परिणाम नहीं मिला।</p>
-                </div>
-            </div>
+        <!-- Main Content Area -->
+        <main id="dynamic-content-container" class="main-content">
+            <!-- Dynamic content will be loaded here -->
         </main>
-        
-        <!-- History Page Content -->
-        <div id="history-page" class="hidden">
-            <div class="bg-white dark:bg-slate-800 p-8 rounded-xl shadow-lg my-8">
-                <h2 class="text-3xl font-bold text-slate-900 dark:text-slate-100 mb-4">हाल ही में देखे गए वीडियो</h2>
-                <div id="history-list" class="flex flex-col gap-4">
-                    <p id="no-history-message" class="text-slate-500 dark:text-slate-400">अभी तक कोई वीडियो नहीं देखा गया है।</p>
-                </div>
-            </div>
-        </div>
-
-        <!-- About Page Content -->
-        <div id="about-page" class="hidden">
-            <div class="bg-white dark:bg-slate-800 p-8 rounded-xl shadow-lg max-w-2xl mx-auto my-8">
-                <h2 class="text-3xl font-bold text-slate-900 dark:text-slate-100 mb-4">हमारे बारे में</h2>
-                <p class="text-lg text-slate-600 dark:text-slate-400 leading-relaxed">
-                    यह वेबसाइट केवल शैक्षिक उपयोग के लिए बनाई गई है। इसमें सभी वीडियो YouTube V3 API का उपयोग करके प्रदर्शित किए जाते हैं। हम कोई भी वीडियो होस्ट या स्टोर नहीं करते हैं। हमारा उद्देश्य YouTube API की क्षमताओं को प्रदर्शित करना है।
-                </p>
-                <p class="text-lg text-slate-600 dark:text-slate-400 mt-4 leading-relaxed">
-                    यह ऐप किसी भी तरह से YouTube, Inc. से संबद्ध नहीं है।
-                </p>
-            </div>
-        </div>
-
-        <!-- Privacy Page Content -->
-        <div id="privacy-page" class="hidden">
-            <div class="bg-white dark:bg-slate-800 p-8 rounded-xl shadow-lg max-w-2xl mx-auto my-8">
-                <h2 class="text-3xl font-bold text-slate-900 dark:text-slate-100 mb-4">गोपनीयता नीति (Privacy Policy)</h2>
-                <p class="text-lg text-slate-600 dark:text-slate-400 leading-relaxed">
-                    यह वेबसाइट किसी भी व्यक्तिगत जानकारी को एकत्र या संग्रहीत नहीं करती है।
-                </p>
-                <p class="text-lg text-slate-600 dark:text-slate-400 mt-4 leading-relaxed">
-                    चूंकि यह वेबसाइट YouTube API का उपयोग करती है, इसलिए आपका डेटा Google की गोपनीयता नीति के अधीन है।
-                </p>
-            </div>
-        </div>
     </div>
 
     <!-- Custom Modal for Messages -->
@@ -239,48 +162,23 @@
     <script>
         // API key placeholder. YOU MUST REPLACE 'YOUR_API_KEY' with your actual YouTube Data API v3 key.
         const API_KEY = 'AIzaSyATqoBHxdsF2du7Xx-3cNTYmNwyzNh4J58';
-        const BASE_API_URL = 'https://www.googleapis.com/youtube/v3/search';
+        const BASE_API_URL = 'https://www.googleapis.com/youtube/v3';
         const VIDEO_EMBED_URL = 'https://www.youtube.com/embed/';
-        const YOUTUBE_VIDEO_URL = 'https://www.youtube.com/watch?v=';
         const LOCAL_STORAGE_KEY = 'watchHistory';
         const THEME_STORAGE_KEY = 'theme';
 
         // Get DOM elements
         const navLinks = document.querySelectorAll('.nav-link');
-        const homePage = document.getElementById('home-page');
-        const historyPage = document.getElementById('history-page');
-        const aboutPage = document.getElementById('about-page');
-        const privacyPage = document.getElementById('privacy-page');
+        const dynamicContentContainer = document.getElementById('dynamic-content-container');
         const searchInput = document.getElementById('search-input');
         const searchButton = document.getElementById('search-button');
-        const videoList = document.getElementById('video-list');
-        const historyList = document.getElementById('history-list');
-        const noHistoryMessage = document.getElementById('no-history-message');
-        const videoPlayer = document.getElementById('video-player');
-        const videoDetails = document.getElementById('video-details');
-        const videoTitle = document.getElementById('video-title');
-        const channelName = document.getElementById('channel-name');
-        const videoDescription = document.getElementById('video-description');
-        const descriptionToggle = document.getElementById('description-toggle');
-        const toggleIcon = document.getElementById('toggle-icon');
-        const descriptionWrapper = document.getElementById('description-wrapper');
-        const likeButton = document.getElementById('like-button');
-        const shareButton = document.getElementById('shareButton');
-        const copyLinkButton = document.getElementById('copy-link-button'); // New button
-        const loadingMessage = document.getElementById('loading-message');
-        const noResultsMessage = document.getElementById('no-results-message');
         const messageModal = document.getElementById('message-modal');
         const modalMessage = document.getElementById('modal-message');
         const modalCloseButton = document.getElementById('modal-close-button');
-        // New PWA elements
         const installButton = document.getElementById('install-button');
         let deferredPrompt;
-
-        // New theme-related elements
         const themeToggle = document.getElementById('theme-toggle');
         const themeIcon = themeToggle.querySelector('i');
-
-        let currentVideoId = null;
 
         // Function to show the custom message modal
         function showModal(message) {
@@ -302,26 +200,17 @@
             container.innerHTML = ''; // Clear previous results
             
             if (videos.length === 0) {
-                if (!isHistory) {
-                    noResultsMessage.style.display = 'block';
-                }
+                container.innerHTML = `<p class="text-center text-slate-500 dark:text-slate-400">कोई परिणाम नहीं मिला।</p>`;
                 return;
-            } else {
-                noResultsMessage.style.display = 'none';
-                if (isHistory) {
-                    noHistoryMessage.style.display = 'none';
-                }
             }
 
             videos.forEach(video => {
-                // Get the video ID from the `id` object
-                const videoId = isHistory ? video.videoId : video.id.videoId;
+                const videoId = isHistory ? video.videoId : (video.id.videoId || video.id);
                 const thumbnailUrl = isHistory ? video.thumbnailUrl : video.snippet.thumbnails.high.url;
                 const title = video.snippet ? video.snippet.title : video.title;
                 const channel = video.snippet ? video.snippet.channelTitle : video.channelTitle;
                 const description = video.snippet ? video.snippet.description : video.description;
 
-                // Create the video thumbnail element
                 const videoElement = document.createElement('div');
                 videoElement.className = 'video-thumbnail bg-slate-50 dark:bg-slate-700 p-3 rounded-xl flex flex-row items-center gap-4 transition-all shadow-md hover:shadow-lg';
                 videoElement.dataset.videoId = videoId;
@@ -330,24 +219,20 @@
                 videoElement.dataset.description = description;
                 videoElement.dataset.thumbnailUrl = thumbnailUrl;
 
-                // Create and add the thumbnail image
                 const thumbnailImage = document.createElement('img');
                 thumbnailImage.src = thumbnailUrl;
                 thumbnailImage.alt = title;
                 thumbnailImage.className = 'rounded-md w-24 h-24 object-cover flex-shrink-0';
                 videoElement.appendChild(thumbnailImage);
 
-                // Create and add the text content container
                 const textContent = document.createElement('div');
                 textContent.className = 'flex flex-col justify-start';
 
-                // Add video title
                 const titleElement = document.createElement('h3');
                 titleElement.className = 'text-sm font-semibold text-slate-800 dark:text-slate-200 line-clamp-2';
                 titleElement.textContent = title;
                 textContent.appendChild(titleElement);
 
-                // Add channel name
                 const channelElement = document.createElement('p');
                 channelElement.className = 'text-xs text-slate-500 dark:text-slate-400 mt-1';
                 channelElement.textContent = channel;
@@ -355,15 +240,8 @@
                 
                 videoElement.appendChild(textContent);
 
-                // Add a click listener to play the video and show details
                 videoElement.addEventListener('click', () => {
-                    playVideo(
-                        videoElement.dataset.videoId,
-                        videoElement.dataset.title,
-                        videoElement.dataset.channel,
-                        videoElement.dataset.description,
-                        videoElement.dataset.thumbnailUrl
-                    );
+                    renderHomePage(videoId, {title, channel, description, thumbnailUrl});
                 });
 
                 container.appendChild(videoElement);
@@ -371,26 +249,35 @@
         }
 
         // Function to play a video in the iframe and display its details
-        function playVideo(videoId, title, channel, description, thumbnailUrl) {
-            currentVideoId = videoId;
+        function playVideo(videoId, videoData) {
+            const videoPlayer = document.getElementById('video-player');
+            const videoDetails = document.getElementById('video-details');
+            const videoTitle = document.getElementById('video-title');
+            const channelName = document.getElementById('channel-name');
+            const videoDescription = document.getElementById('video-description');
+            const descriptionWrapper = document.getElementById('description-wrapper');
+            const toggleIcon = document.getElementById('toggle-icon');
+
             videoPlayer.src = `${VIDEO_EMBED_URL}${videoId}?autoplay=1`;
-            videoDetails.style.display = 'block';
-            videoTitle.textContent = title;
-            channelName.textContent = channel;
-            videoDescription.textContent = description;
+            if (videoDetails) videoDetails.style.display = 'block';
+            if (videoTitle) videoTitle.textContent = videoData.title;
+            if (channelName) channelName.textContent = videoData.channel;
+            if (videoDescription) videoDescription.textContent = videoData.description;
 
-            // Reset description dropdown state
-            descriptionWrapper.classList.remove('open');
-            toggleIcon.classList.remove('fa-chevron-up');
-            toggleIcon.classList.add('fa-chevron-down');
+            if (descriptionWrapper) {
+                descriptionWrapper.classList.remove('open');
+            }
+            if (toggleIcon) {
+                toggleIcon.classList.remove('fa-chevron-up');
+                toggleIcon.classList.add('fa-chevron-down');
+            }
 
-            // Save video to watch history
             saveToWatchHistory({
                 videoId: videoId,
-                title: title,
-                channelTitle: channel,
-                description: description,
-                thumbnailUrl: thumbnailUrl
+                title: videoData.title,
+                channelTitle: videoData.channel,
+                description: videoData.description,
+                thumbnailUrl: videoData.thumbnailUrl
             });
         }
 
@@ -405,12 +292,11 @@
                 return;
             }
 
-            loadingMessage.style.display = 'block';
-            videoList.innerHTML = '';
-            noResultsMessage.style.display = 'none';
+            const videoList = document.getElementById('video-list');
+            videoList.innerHTML = `<p id="loading-message" class="text-center text-slate-500 dark:text-slate-400">खोज रहा है...</p>`;
 
             try {
-                const response = await fetch(`${BASE_API_URL}?part=snippet&q=${encodeURIComponent(query)}&key=${API_KEY}&type=video&maxResults=20`);
+                const response = await fetch(`${BASE_API_URL}/search?part=snippet&q=${encodeURIComponent(query)}&key=${API_KEY}&type=video&maxResults=20`);
                 if (!response.ok) {
                     throw new Error(`API Error: ${response.status}`);
                 }
@@ -419,41 +305,38 @@
             } catch (error) {
                 console.error("Failed to fetch videos:", error);
                 showModal(`वीडियो लोड करने में त्रुटि: ${error.message}`);
-            } finally {
-                loadingMessage.style.display = 'none';
+                videoList.innerHTML = `<p class="text-center text-slate-500 dark:text-slate-400">लोड करने में विफल रहा।</p>`;
             }
         }
         
-        // Function to show the correct page content
-        function showPage(pageId) {
-            homePage.style.display = 'none';
-            historyPage.style.display = 'none';
-            aboutPage.style.display = 'none';
-            privacyPage.style.display = 'none';
-            
-            // Hide the install button on all pages except home
-            installButton.classList.add('hidden');
-            searchInput.classList.remove('hidden');
-            searchButton.classList.remove('hidden');
+        // Function to fetch trending videos
+        async function fetchTrendingVideos() {
+             if (API_KEY === 'YOUR_API_KEY') {
+                showModal("कृपया अपनी YouTube API Key कोड में जोड़ें।");
+                return;
+            }
 
-            const pageElement = document.getElementById(pageId);
-            if (pageId === 'home-page') {
-                pageElement.style.display = 'grid';
-                if (deferredPrompt) {
-                     installButton.classList.remove('hidden');
+            const trendingList = document.getElementById('trending-list');
+            trendingList.innerHTML = `<p id="trending-loading" class="text-center text-slate-500 dark:text-slate-400">ट्रेंडिंग वीडियो लोड हो रहे हैं...</p>`;
+
+            try {
+                const response = await fetch(`${BASE_API_URL}/videos?part=snippet&chart=mostPopular&regionCode=IN&key=${API_KEY}&maxResults=20`);
+                if (!response.ok) {
+                    throw new Error(`API Error: ${response.status}`);
                 }
-            } else if (pageId === 'history-page') {
-                pageElement.style.display = 'block';
-                searchInput.classList.add('hidden');
-                searchButton.classList.add('hidden');
-                renderWatchHistory();
-            } else {
-                pageElement.style.display = 'block';
-                searchInput.classList.add('hidden');
-                searchButton.classList.add('hidden');
+                const data = await response.json();
+                if (data.items.length > 0) {
+                     renderVideos(data.items, trendingList);
+                } else {
+                    trendingList.innerHTML = `<p class="text-center text-slate-500 dark:text-slate-400">कोई ट्रेंडिंग वीडियो नहीं मिला।</p>`;
+                }
+            } catch (error) {
+                console.error("Failed to fetch trending videos:", error);
+                showModal(`ट्रेंडिंग वीडियो लोड करने में त्रुटि: ${error.message}`);
+                trendingList.innerHTML = `<p class="text-center text-slate-500 dark:text-slate-400">लोड करने में विफल रहा।</p>`;
             }
         }
-
+        
         // Local Storage Functions
         function getWatchHistory() {
             try {
@@ -467,15 +350,11 @@
 
         function saveToWatchHistory(videoData) {
             const history = getWatchHistory();
-            // Check if video is already in history to avoid duplicates
             const existingIndex = history.findIndex(v => v.videoId === videoData.videoId);
             if (existingIndex !== -1) {
-                // Remove the old entry to place the new one at the top
                 history.splice(existingIndex, 1);
             }
-            // Add new video to the beginning of the array
             history.unshift(videoData);
-            // Limit the history size (e.g., to the last 20 videos)
             const limitedHistory = history.slice(0, 20);
             try {
                 localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(limitedHistory));
@@ -486,20 +365,18 @@
 
         function renderWatchHistory() {
             const history = getWatchHistory();
+            const historyList = document.getElementById('history-list');
             if (history.length === 0) {
-                noHistoryMessage.style.display = 'block';
-                historyList.innerHTML = '';
+                historyList.innerHTML = `<p class="text-slate-500 dark:text-slate-400">अभी तक कोई वीडियो नहीं देखा गया है।</p>`;
             } else {
-                noHistoryMessage.style.display = 'none';
                 renderVideos(history, historyList, true);
             }
         }
-
+        
         // Function to handle theme toggle
         function toggleTheme() {
             const body = document.body;
-            const currentTheme = body.classList.contains('dark') ? 'dark' : 'light';
-            const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+            const newTheme = body.classList.contains('dark') ? 'light' : 'dark';
             
             if (newTheme === 'dark') {
                 body.classList.add('dark');
@@ -520,12 +397,12 @@
 
         // Event listeners
         searchButton.addEventListener('click', () => {
-            searchVideos(searchInput.value.trim());
+            renderHomePage(null, null, searchInput.value.trim());
         });
 
         searchInput.addEventListener('keyup', (event) => {
             if (event.key === 'Enter') {
-                searchVideos(searchInput.value.trim());
+                renderHomePage(null, null, searchInput.value.trim());
             }
         });
         
@@ -533,107 +410,242 @@
         navLinks.forEach(link => {
             link.addEventListener('click', (event) => {
                 event.preventDefault();
-                const pageId = link.getAttribute('data-page');
-                showPage(pageId + '-page');
+                const page = link.getAttribute('data-page');
+                switch (page) {
+                    case 'home':
+                        renderHomePage();
+                        break;
+                    case 'trending':
+                        renderTrendingPage();
+                        break;
+                    case 'history':
+                        renderHistoryPage();
+                        break;
+                    case 'about':
+                        renderAboutPage();
+                        break;
+                    case 'privacy':
+                        renderPrivacyPage();
+                        break;
+                }
             });
         });
 
-        // Button event listeners
-        likeButton.addEventListener('click', () => {
-            showModal("यह वीडियो पसंद आया! (यह केवल एक प्रदर्शन है)");
-        });
-
-        shareButton.addEventListener('click', () => {
-            if (currentVideoId) {
-                const videoLink = YOUTUBE_VIDEO_URL + currentVideoId;
-                if (navigator.clipboard && navigator.clipboard.writeText) {
-                    navigator.clipboard.writeText(videoLink)
-                        .then(() => showModal("लिंक सफलतापूर्वक कॉपी किया गया!"))
-                        .catch(err => {
-                            console.error('लिंक कॉपी करने में विफल रहा:', err);
-                            showModal("लिंक कॉपी करने में विफल रहा।");
-                        });
-                } else {
-                    // Fallback for browsers that don't support navigator.clipboard
-                    const tempInput = document.createElement('textarea');
-                    tempInput.value = videoLink;
-                    document.body.appendChild(tempInput);
-                    tempInput.select();
-                    try {
-                        document.execCommand('copy');
-                        showModal("लिंक सफलतापूर्वक कॉपी किया गया!");
-                    } catch (err) {
-                        showModal("लिंक कॉपी करने में विफल रहा।");
-                    }
-                    document.body.removeChild(tempInput);
-                }
-            } else {
-                showModal("पहले एक वीडियो चलाएं।");
-            }
-        });
-
-        copyLinkButton.addEventListener('click', () => {
-            if (currentVideoId) {
-                const videoLink = YOUTUBE_VIDEO_URL + currentVideoId;
-                if (navigator.clipboard && navigator.clipboard.writeText) {
-                    navigator.clipboard.writeText(videoLink)
-                        .then(() => showModal("लिंक सफलतापूर्वक कॉपी किया गया!"))
-                        .catch(err => {
-                            console.error('लिंक कॉपी करने में विफल रहा:', err);
-                            showModal("लिंक कॉपी करने में विफल रहा।");
-                        });
-                } else {
-                    // Fallback for browsers that don't support navigator.clipboard
-                    const tempInput = document.createElement('textarea');
-                    tempInput.value = videoLink;
-                    document.body.appendChild(tempInput);
-                    tempInput.select();
-                    try {
-                        document.execCommand('copy');
-                        showModal("लिंक सफलतापूर्वक कॉपी किया गया!");
-                    } catch (err) {
-                        showModal("लिंक कॉपी करने में विफल रहा।");
-                    }
-                    document.body.removeChild(tempInput);
-                }
-            } else {
-                showModal("पहले एक वीडियो चलाएं।");
-            }
-        });
-
-        // Description dropdown event listener
-        descriptionToggle.addEventListener('click', () => {
-            descriptionWrapper.classList.toggle('open');
-            if (descriptionWrapper.classList.contains('open')) {
-                toggleIcon.classList.remove('fa-chevron-down');
-                toggleIcon.classList.add('fa-chevron-up');
-            } else {
-                toggleIcon.classList.remove('fa-chevron-up');
-                toggleIcon.classList.add('fa-chevron-down');
-            }
-        });
-
-        // New theme toggle event listener
-        themeToggle.addEventListener('click', toggleTheme);
-
         // PWA (Progressive Web App) related code
         window.addEventListener('beforeinstallprompt', (e) => {
-            // Prevent the mini-infobar from appearing on mobile
             e.preventDefault();
-            // Stash the event so it can be triggered later.
             deferredPrompt = e;
-            // Update UI to show the install button
             installButton.classList.remove('hidden');
         });
 
         installButton.addEventListener('click', () => {
             if (deferredPrompt) {
-                // Hide the install button
                 installButton.classList.add('hidden');
-                // Show the browser's install prompt
                 deferredPrompt.prompt();
-                // Wait for the user to respond to the prompt
                 deferredPrompt.userChoice.then((choiceResult) => {
                     if (choiceResult.outcome === 'accepted') {
                         showModal('ऐप सफलतापूर्वक होम स्क्रीन पर जोड़ा गया!');
-                        // Reset deferredPrompt after it'
+                        deferredPrompt = null; 
+                    } else {
+                        showModal('इंस्टॉलेशन रद्द कर दिया गया।');
+                    }
+                });
+            }
+        });
+        
+        // Function to handle button events (defined inside renderHomePage for scope)
+        function setupButtonListeners() {
+            const likeButton = document.getElementById('like-button');
+            const shareButton = document.getElementById('share-button');
+            const downloadButton = document.getElementById('download-button');
+            const descriptionToggle = document.getElementById('description-toggle');
+            const descriptionWrapper = document.getElementById('description-wrapper');
+            const toggleIcon = document.getElementById('toggle-icon');
+
+            if (likeButton) {
+                likeButton.addEventListener('click', () => {
+                    showModal("यह वीडियो पसंद आया! (यह केवल एक प्रदर्शन है)");
+                });
+            }
+
+            if (shareButton) {
+                shareButton.addEventListener('click', () => {
+                    const videoPlayer = document.getElementById('video-player');
+                    const videoLink = videoPlayer.src;
+                    if (videoLink) {
+                        const tempInput = document.createElement('input');
+                        tempInput.value = videoLink;
+                        document.body.appendChild(tempInput);
+                        tempInput.select();
+                        try {
+                            document.execCommand('copy');
+                            showModal("लिंक कॉपी हो गया!");
+                        } catch (err) {
+                            showModal("लिंक कॉपी करने में विफल रहा।");
+                        }
+                        document.body.removeChild(tempInput);
+                    } else {
+                        showModal("पहले एक वीडियो चलाएं।");
+                    }
+                });
+            }
+
+            if (downloadButton) {
+                downloadButton.addEventListener('click', () => {
+                    showModal("YouTube की नीतियों के कारण, हम सीधे वीडियो डाउनलोड नहीं कर सकते हैं।");
+                });
+            }
+
+            if (descriptionToggle) {
+                descriptionToggle.addEventListener('click', () => {
+                    descriptionWrapper.classList.toggle('open');
+                    if (descriptionWrapper.classList.contains('open')) {
+                        toggleIcon.classList.remove('fa-chevron-down');
+                        toggleIcon.classList.add('fa-chevron-up');
+                    } else {
+                        toggleIcon.classList.remove('fa-chevron-up');
+                        toggleIcon.classList.add('fa-chevron-down');
+                    }
+                });
+            }
+        }
+        
+        // --- Dynamic Page Rendering Functions ---
+
+        // Render Home Page
+        function renderHomePage(videoId = null, videoData = null, searchQuery = 'Latest Movies') {
+            document.title = "YouTube Streamer - होम";
+            searchInput.classList.remove('hidden');
+            searchButton.classList.remove('hidden');
+            dynamicContentContainer.innerHTML = `
+                <div class="video-player-container bg-white dark:bg-slate-800 p-4 rounded-xl shadow-lg transition-colors">
+                    <div class="relative w-full aspect-video rounded-xl overflow-hidden">
+                        <iframe id="video-player" class="absolute top-0 left-0 w-full h-full" src="" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                    </div>
+                    <div id="video-details" class="mt-4 hidden">
+                        <h2 id="video-title" class="text-xl font-bold text-slate-900 dark:text-slate-100"></h2>
+                        <p id="channel-name" class="text-slate-600 dark:text-slate-400 mt-1"></p>
+                        
+                        <div class="flex items-center gap-4 mt-4">
+                            <button id="like-button" class="flex items-center gap-1.5 p-2 rounded-full text-slate-600 hover:bg-slate-200 dark:text-slate-400 dark:hover:bg-slate-700 transition-colors">
+                                <i class="fas fa-thumbs-up"></i>
+                                <span>लाइक</span>
+                            </button>
+                            <button id="share-button" class="flex items-center gap-1.5 p-2 rounded-full text-slate-600 hover:bg-slate-200 dark:text-slate-400 dark:hover:bg-slate-700 transition-colors">
+                                <i class="fas fa-share"></i>
+                                <span>शेयर</span>
+                            </button>
+                            <button id="download-button" class="flex items-center gap-1.5 p-2 rounded-full text-slate-600 hover:bg-slate-200 dark:text-slate-400 dark:hover:bg-slate-700 transition-colors">
+                                <i class="fas fa-download"></i>
+                                <span>डाउनलोड</span>
+                            </button>
+                        </div>
+
+                        <div class="mt-4 border-t pt-4 border-slate-200 dark:border-slate-700">
+                            <button id="description-toggle" class="flex justify-between items-center w-full text-left font-semibold text-slate-800 dark:text-slate-200 focus:outline-none">
+                                <span>विवरण</span>
+                                <i id="toggle-icon" class="fas fa-chevron-down text-sm"></i>
+                            </button>
+                            <div id="description-wrapper" class="description-content">
+                                <p id="video-description" class="text-slate-500 dark:text-slate-400 text-sm mt-2 whitespace-pre-wrap"></p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div id="video-list-container" class="video-list-container bg-white dark:bg-slate-800 p-4 rounded-xl shadow-lg transition-colors">
+                    <h2 class="text-xl font-bold mb-4">वीडियो परिणाम</h2>
+                    <div id="video-list" class="flex flex-col gap-4 scrollable-list">
+                        <p class="text-center text-slate-500 dark:text-slate-400">खोज रहा है...</p>
+                    </div>
+                </div>
+            `;
+            setupButtonListeners();
+            if (videoId && videoData) {
+                playVideo(videoId, videoData);
+            }
+            searchVideos(searchQuery);
+        }
+
+        // Render Trending Page
+        function renderTrendingPage() {
+            document.title = "YouTube Streamer - ट्रेंडिंग";
+            searchInput.classList.add('hidden');
+            searchButton.classList.add('hidden');
+            dynamicContentContainer.innerHTML = `
+                <div class="col-span-1 lg:col-span-3 bg-white dark:bg-slate-800 p-8 rounded-xl shadow-lg my-8">
+                    <h2 class="text-3xl font-bold text-slate-900 dark:text-slate-100 mb-4">ट्रेंडिंग वीडियो</h2>
+                    <div id="trending-list" class="flex flex-col gap-4">
+                        <p class="text-center text-slate-500 dark:text-slate-400">ट्रेंडिंग वीडियो लोड हो रहे हैं...</p>
+                    </div>
+                </div>
+            `;
+            fetchTrendingVideos();
+        }
+
+        // Render History Page
+        function renderHistoryPage() {
+            document.title = "YouTube Streamer - इतिहास";
+            searchInput.classList.add('hidden');
+            searchButton.classList.add('hidden');
+            dynamicContentContainer.innerHTML = `
+                <div class="col-span-1 lg:col-span-3 bg-white dark:bg-slate-800 p-8 rounded-xl shadow-lg my-8">
+                    <h2 class="text-3xl font-bold text-slate-900 dark:text-slate-100 mb-4">हाल ही में देखे गए वीडियो</h2>
+                    <div id="history-list" class="flex flex-col gap-4">
+                    </div>
+                </div>
+            `;
+            renderWatchHistory();
+        }
+        
+        // Render About Page
+        function renderAboutPage() {
+            document.title = "YouTube Streamer - हमारे बारे में";
+            searchInput.classList.add('hidden');
+            searchButton.classList.add('hidden');
+            dynamicContentContainer.innerHTML = `
+                <div class="col-span-1 lg:col-span-3 bg-white dark:bg-slate-800 p-8 rounded-xl shadow-lg max-w-2xl mx-auto my-8">
+                    <h2 class="text-3xl font-bold text-slate-900 dark:text-slate-100 mb-4">हमारे बारे में</h2>
+                    <p class="text-lg text-slate-600 dark:text-slate-400 leading-relaxed">
+                        यह वेबसाइट केवल शैक्षिक उपयोग के लिए बनाई गई है। इसमें सभी वीडियो YouTube V3 API का उपयोग करके प्रदर्शित किए जाते हैं। हम कोई भी वीडियो होस्ट या स्टोर नहीं करते हैं। हमारा उद्देश्य YouTube API की क्षमताओं को प्रदर्शित करना है।
+                    </p>
+                    <p class="text-lg text-slate-600 dark:text-slate-400 mt-4 leading-relaxed">
+                        यह ऐप किसी भी तरह से YouTube, Inc. से संबद्ध नहीं है।
+                    </p>
+                </div>
+            `;
+        }
+
+        // Render Privacy Page
+        function renderPrivacyPage() {
+            document.title = "YouTube Streamer - प्राइवेसी";
+            searchInput.classList.add('hidden');
+            searchButton.classList.add('hidden');
+            dynamicContentContainer.innerHTML = `
+                <div class="col-span-1 lg:col-span-3 bg-white dark:bg-slate-800 p-8 rounded-xl shadow-lg max-w-2xl mx-auto my-8">
+                    <h2 class="text-3xl font-bold text-slate-900 dark:text-slate-100 mb-4">गोपनीयता नीति (Privacy Policy)</h2>
+                    <p class="text-lg text-slate-600 dark:text-slate-400 leading-relaxed">
+                        यह वेबसाइट किसी भी व्यक्तिगत जानकारी को एकत्र या संग्रहीत नहीं करती है।
+                    </p>
+                    <p class="text-lg text-slate-600 dark:text-slate-400 mt-4 leading-relaxed">
+                        चूंकि यह वेबसाइट YouTube API का उपयोग करती है, इसलिए आपका डेटा Google की गोपनीयता नीति के अधीन है।
+                    </p>
+                </div>
+            `;
+        }
+
+        // Initial setup on page load
+        window.addEventListener('load', () => {
+            const savedTheme = localStorage.getItem(THEME_STORAGE_KEY);
+            if (savedTheme === 'dark') {
+                document.body.classList.add('dark');
+                themeIcon.classList.remove('fa-moon');
+                themeIcon.classList.add('fa-sun');
+            }
+            renderHomePage(); // Load the home page by default
+        });
+
+        // New theme toggle event listener
+        themeToggle.addEventListener('click', toggleTheme);
+    </script>
+</body>
+</html>
