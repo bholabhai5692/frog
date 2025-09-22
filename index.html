@@ -6,6 +6,21 @@
     <title>YouTube Streamer</title>
     <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      // Configure Tailwind CSS for dark mode
+      tailwind.config = {
+        darkMode: 'class',
+        theme: {
+          extend: {
+            colors: {
+              slate: {
+                850: '#1e293b',
+              }
+            }
+          }
+        }
+      }
+    </script>
     <!-- Font Awesome for icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
     <style>
@@ -13,6 +28,9 @@
         body {
             font-family: 'Inter', sans-serif;
             background-color: #f1f5f9; /* Tailwind's slate-100 */
+        }
+        body.dark {
+            background-color: #0f172a; /* Tailwind's slate-900 */
         }
         .container-wrapper {
             display: flex;
@@ -59,6 +77,13 @@
             border-radius: 10px;
             border: 2px solid #e2e8f0;
         }
+        body.dark .scrollable-list::-webkit-scrollbar-track {
+            background: #1f2937; /* dark:bg-gray-800 */
+        }
+        body.dark .scrollable-list::-webkit-scrollbar-thumb {
+            background-color: #475569; /* dark:bg-slate-600 */
+            border-color: #1f2937;
+        }
 
         /* Modal styling */
         .modal {
@@ -87,24 +112,28 @@
         }
     </style>
 </head>
-<body class="bg-slate-100 text-slate-800">
+<body class="bg-slate-100 text-slate-800 dark:bg-slate-900 dark:text-slate-200 transition-colors">
 
     <!-- Main Container -->
     <div class="container-wrapper">
 
         <!-- Header and Search Bar -->
-        <header class="bg-white p-4 sm:p-6 rounded-xl shadow-lg flex flex-col gap-4">
+        <header class="bg-white dark:bg-slate-800 p-4 sm:p-6 rounded-xl shadow-lg flex flex-col gap-4 transition-colors">
             <div class="flex items-center justify-between">
                 <h1 class="text-2xl sm:text-3xl font-bold text-sky-600">YouTube स्ट्रीम</h1>
-                <nav class="flex gap-4">
-                    <a href="#" data-page="home" class="nav-link text-slate-600 hover:text-sky-600 font-medium">होम</a>
-                    <a href="#" data-page="history" class="nav-link text-slate-600 hover:text-sky-600 font-medium">इतिहास</a>
-                    <a href="#" data-page="about" class="nav-link text-slate-600 hover:text-sky-600 font-medium">हमारे बारे में</a>
-                    <a href="#" data-page="privacy" class="nav-link text-slate-600 hover:text-sky-600 font-medium">प्राइवेसी</a>
+                <nav class="flex items-center gap-4">
+                    <a href="#" data-page="home" class="nav-link text-slate-600 hover:text-sky-600 font-medium dark:text-slate-400 dark:hover:text-sky-400">होम</a>
+                    <a href="#" data-page="history" class="nav-link text-slate-600 hover:text-sky-600 font-medium dark:text-slate-400 dark:hover:text-sky-400">इतिहास</a>
+                    <a href="#" data-page="about" class="nav-link text-slate-600 hover:text-sky-600 font-medium dark:text-slate-400 dark:hover:text-sky-400">हमारे बारे में</a>
+                    <a href="#" data-page="privacy" class="nav-link text-slate-600 hover:text-sky-600 font-medium dark:text-slate-400 dark:hover:text-sky-400">प्राइवेसी</a>
+                    <!-- New button to toggle theme -->
+                    <button id="theme-toggle" class="p-2 rounded-full text-slate-600 dark:text-slate-400 hover:bg-slate-200 dark:hover:bg-slate-700 transition-colors">
+                        <i class="fas fa-moon"></i>
+                    </button>
                 </nav>
             </div>
             <div class="flex-1 w-full sm:w-auto flex flex-col sm:flex-row gap-2 items-center">
-                <input id="search-input" type="text" placeholder="वीडियो खोजें..." class="flex-1 p-3 rounded-xl border border-slate-300 focus:outline-none focus:ring-2 focus:ring-sky-500 transition-colors">
+                <input id="search-input" type="text" placeholder="वीडियो खोजें..." class="flex-1 p-3 rounded-xl border border-slate-300 dark:bg-slate-700 dark:border-slate-600 dark:text-white focus:outline-none focus:ring-2 focus:ring-sky-500 transition-colors">
                 <button id="search-button" class="bg-sky-500 text-white font-semibold p-3 rounded-xl hover:bg-sky-600 transition-colors shadow-md">खोजें</button>
                 <!-- New button to trigger PWA install prompt -->
                 <button id="install-button" class="hidden bg-emerald-500 text-white font-semibold p-3 rounded-xl hover:bg-emerald-600 transition-colors shadow-md">होम स्क्रीन पर जोड़ें</button>
@@ -114,72 +143,72 @@
         <!-- Main Content Area (Video Player & Video List) -->
         <main id="home-page" class="main-content">
             <!-- Video Player Section -->
-            <div class="video-player-container bg-white p-4 rounded-xl shadow-lg">
+            <div class="video-player-container bg-white dark:bg-slate-800 p-4 rounded-xl shadow-lg transition-colors">
                 <div class="relative w-full aspect-video rounded-xl overflow-hidden">
                     <iframe id="video-player" class="absolute top-0 left-0 w-full h-full" src="" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
                 </div>
                 <div id="video-details" class="mt-4 hidden">
-                    <h2 id="video-title" class="text-xl font-bold text-slate-900"></h2>
-                    <p id="channel-name" class="text-slate-600 mt-1"></p>
+                    <h2 id="video-title" class="text-xl font-bold text-slate-900 dark:text-slate-100"></h2>
+                    <p id="channel-name" class="text-slate-600 dark:text-slate-400 mt-1"></p>
                     
                     <!-- New Buttons Section for Like, Share, Download -->
                     <div class="flex items-center gap-4 mt-4">
-                        <button id="like-button" class="flex items-center gap-1.5 p-2 rounded-full text-slate-600 hover:bg-slate-200 transition-colors">
+                        <button id="like-button" class="flex items-center gap-1.5 p-2 rounded-full text-slate-600 hover:bg-slate-200 dark:text-slate-400 dark:hover:bg-slate-700 transition-colors">
                             <i class="fas fa-thumbs-up"></i>
                             <span>लाइक</span>
                         </button>
-                        <button id="share-button" class="flex items-center gap-1.5 p-2 rounded-full text-slate-600 hover:bg-slate-200 transition-colors">
+                        <button id="share-button" class="flex items-center gap-1.5 p-2 rounded-full text-slate-600 hover:bg-slate-200 dark:text-slate-400 dark:hover:bg-slate-700 transition-colors">
                             <i class="fas fa-share"></i>
                             <span>शेयर</span>
                         </button>
-                        <button id="download-button" class="flex items-center gap-1.5 p-2 rounded-full text-slate-600 hover:bg-slate-200 transition-colors">
-                            <i class="fas fa-download"></i>
-                            <span>डाउनलोड</span>
+                        <button id="copy-link-button" class="flex items-center gap-1.5 p-2 rounded-full text-slate-600 hover:bg-slate-200 dark:text-slate-400 dark:hover:bg-slate-700 transition-colors">
+                            <i class="fas fa-link"></i>
+                            <span>लिंक कॉपी करें</span>
                         </button>
                     </div>
 
                     <!-- Description Dropdown Section -->
-                    <div class="mt-4 border-t pt-4 border-slate-200">
-                        <button id="description-toggle" class="flex justify-between items-center w-full text-left font-semibold text-slate-800 focus:outline-none">
+                    <div class="mt-4 border-t pt-4 border-slate-200 dark:border-slate-700">
+                        <button id="description-toggle" class="flex justify-between items-center w-full text-left font-semibold text-slate-800 dark:text-slate-200 focus:outline-none">
                             <span>विवरण</span>
                             <i id="toggle-icon" class="fas fa-chevron-down text-sm"></i>
                         </button>
                         <div id="description-wrapper" class="description-content">
-                            <p id="video-description" class="text-slate-500 text-sm mt-2 whitespace-pre-wrap"></p>
+                            <p id="video-description" class="text-slate-500 dark:text-slate-400 text-sm mt-2 whitespace-pre-wrap"></p>
                         </div>
                     </div>
                 </div>
             </div>
 
             <!-- Video List Section -->
-            <div class="video-list-container bg-white p-4 rounded-xl shadow-lg">
+            <div class="video-list-container bg-white dark:bg-slate-800 p-4 rounded-xl shadow-lg transition-colors">
                 <h2 class="text-xl font-bold mb-4">वीडियो परिणाम</h2>
                 <div id="video-list" class="flex flex-col gap-4 scrollable-list">
                     <!-- Dynamic video thumbnails will be inserted here by JavaScript -->
-                    <p id="loading-message" class="text-center text-slate-500 hidden">खोज रहा है...</p>
-                    <p id="no-results-message" class="text-center text-slate-500 hidden">कोई परिणाम नहीं मिला।</p>
+                    <p id="loading-message" class="text-center text-slate-500 hidden dark:text-slate-400">खोज रहा है...</p>
+                    <p id="no-results-message" class="text-center text-slate-500 hidden dark:text-slate-400">कोई परिणाम नहीं मिला।</p>
                 </div>
             </div>
         </main>
         
         <!-- History Page Content -->
         <div id="history-page" class="hidden">
-            <div class="bg-white p-8 rounded-xl shadow-lg my-8">
-                <h2 class="text-3xl font-bold text-slate-900 mb-4">हाल ही में देखे गए वीडियो</h2>
+            <div class="bg-white dark:bg-slate-800 p-8 rounded-xl shadow-lg my-8">
+                <h2 class="text-3xl font-bold text-slate-900 dark:text-slate-100 mb-4">हाल ही में देखे गए वीडियो</h2>
                 <div id="history-list" class="flex flex-col gap-4">
-                    <p id="no-history-message" class="text-slate-500">अभी तक कोई वीडियो नहीं देखा गया है।</p>
+                    <p id="no-history-message" class="text-slate-500 dark:text-slate-400">अभी तक कोई वीडियो नहीं देखा गया है।</p>
                 </div>
             </div>
         </div>
 
         <!-- About Page Content -->
         <div id="about-page" class="hidden">
-            <div class="bg-white p-8 rounded-xl shadow-lg max-w-2xl mx-auto my-8">
-                <h2 class="text-3xl font-bold text-slate-900 mb-4">हमारे बारे में</h2>
-                <p class="text-lg text-slate-600 leading-relaxed">
+            <div class="bg-white dark:bg-slate-800 p-8 rounded-xl shadow-lg max-w-2xl mx-auto my-8">
+                <h2 class="text-3xl font-bold text-slate-900 dark:text-slate-100 mb-4">हमारे बारे में</h2>
+                <p class="text-lg text-slate-600 dark:text-slate-400 leading-relaxed">
                     यह वेबसाइट केवल शैक्षिक उपयोग के लिए बनाई गई है। इसमें सभी वीडियो YouTube V3 API का उपयोग करके प्रदर्शित किए जाते हैं। हम कोई भी वीडियो होस्ट या स्टोर नहीं करते हैं। हमारा उद्देश्य YouTube API की क्षमताओं को प्रदर्शित करना है।
                 </p>
-                <p class="text-lg text-slate-600 mt-4 leading-relaxed">
+                <p class="text-lg text-slate-600 dark:text-slate-400 mt-4 leading-relaxed">
                     यह ऐप किसी भी तरह से YouTube, Inc. से संबद्ध नहीं है।
                 </p>
             </div>
@@ -187,12 +216,12 @@
 
         <!-- Privacy Page Content -->
         <div id="privacy-page" class="hidden">
-            <div class="bg-white p-8 rounded-xl shadow-lg max-w-2xl mx-auto my-8">
-                <h2 class="text-3xl font-bold text-slate-900 mb-4">गोपनीयता नीति (Privacy Policy)</h2>
-                <p class="text-lg text-slate-600 leading-relaxed">
+            <div class="bg-white dark:bg-slate-800 p-8 rounded-xl shadow-lg max-w-2xl mx-auto my-8">
+                <h2 class="text-3xl font-bold text-slate-900 dark:text-slate-100 mb-4">गोपनीयता नीति (Privacy Policy)</h2>
+                <p class="text-lg text-slate-600 dark:text-slate-400 leading-relaxed">
                     यह वेबसाइट किसी भी व्यक्तिगत जानकारी को एकत्र या संग्रहीत नहीं करती है।
                 </p>
-                <p class="text-lg text-slate-600 mt-4 leading-relaxed">
+                <p class="text-lg text-slate-600 dark:text-slate-400 mt-4 leading-relaxed">
                     चूंकि यह वेबसाइट YouTube API का उपयोग करती है, इसलिए आपका डेटा Google की गोपनीयता नीति के अधीन है।
                 </p>
             </div>
@@ -201,8 +230,8 @@
 
     <!-- Custom Modal for Messages -->
     <div id="message-modal" class="modal">
-        <div class="bg-white p-6 rounded-xl shadow-lg text-center max-w-sm w-full">
-            <p id="modal-message" class="text-lg font-medium text-slate-700"></p>
+        <div class="bg-white dark:bg-slate-800 p-6 rounded-xl shadow-lg text-center max-w-sm w-full transition-colors">
+            <p id="modal-message" class="text-lg font-medium text-slate-700 dark:text-slate-300"></p>
             <button id="modal-close-button" class="mt-4 bg-sky-500 text-white font-semibold py-2 px-6 rounded-full hover:bg-sky-600 transition-colors">ठीक है</button>
         </div>
     </div>
@@ -212,7 +241,9 @@
         const API_KEY = 'AIzaSyATqoBHxdsF2du7Xx-3cNTYmNwyzNh4J58';
         const BASE_API_URL = 'https://www.googleapis.com/youtube/v3/search';
         const VIDEO_EMBED_URL = 'https://www.youtube.com/embed/';
+        const YOUTUBE_VIDEO_URL = 'https://www.youtube.com/watch?v=';
         const LOCAL_STORAGE_KEY = 'watchHistory';
+        const THEME_STORAGE_KEY = 'theme';
 
         // Get DOM elements
         const navLinks = document.querySelectorAll('.nav-link');
@@ -234,8 +265,8 @@
         const toggleIcon = document.getElementById('toggle-icon');
         const descriptionWrapper = document.getElementById('description-wrapper');
         const likeButton = document.getElementById('like-button');
-        const shareButton = document.getElementById('share-button');
-        const downloadButton = document.getElementById('download-button');
+        const shareButton = document.getElementById('shareButton');
+        const copyLinkButton = document.getElementById('copy-link-button'); // New button
         const loadingMessage = document.getElementById('loading-message');
         const noResultsMessage = document.getElementById('no-results-message');
         const messageModal = document.getElementById('message-modal');
@@ -244,6 +275,12 @@
         // New PWA elements
         const installButton = document.getElementById('install-button');
         let deferredPrompt;
+
+        // New theme-related elements
+        const themeToggle = document.getElementById('theme-toggle');
+        const themeIcon = themeToggle.querySelector('i');
+
+        let currentVideoId = null;
 
         // Function to show the custom message modal
         function showModal(message) {
@@ -286,7 +323,7 @@
 
                 // Create the video thumbnail element
                 const videoElement = document.createElement('div');
-                videoElement.className = 'video-thumbnail bg-slate-50 p-3 rounded-xl flex flex-row items-center gap-4 transition-all shadow-md hover:shadow-lg';
+                videoElement.className = 'video-thumbnail bg-slate-50 dark:bg-slate-700 p-3 rounded-xl flex flex-row items-center gap-4 transition-all shadow-md hover:shadow-lg';
                 videoElement.dataset.videoId = videoId;
                 videoElement.dataset.title = title;
                 videoElement.dataset.channel = channel;
@@ -306,13 +343,13 @@
 
                 // Add video title
                 const titleElement = document.createElement('h3');
-                titleElement.className = 'text-sm font-semibold text-slate-800 line-clamp-2';
+                titleElement.className = 'text-sm font-semibold text-slate-800 dark:text-slate-200 line-clamp-2';
                 titleElement.textContent = title;
                 textContent.appendChild(titleElement);
 
                 // Add channel name
                 const channelElement = document.createElement('p');
-                channelElement.className = 'text-xs text-slate-500 mt-1';
+                channelElement.className = 'text-xs text-slate-500 dark:text-slate-400 mt-1';
                 channelElement.textContent = channel;
                 textContent.appendChild(channelElement);
                 
@@ -335,6 +372,7 @@
 
         // Function to play a video in the iframe and display its details
         function playVideo(videoId, title, channel, description, thumbnailUrl) {
+            currentVideoId = videoId;
             videoPlayer.src = `${VIDEO_EMBED_URL}${videoId}?autoplay=1`;
             videoDetails.style.display = 'block';
             videoTitle.textContent = title;
@@ -457,6 +495,29 @@
             }
         }
 
+        // Function to handle theme toggle
+        function toggleTheme() {
+            const body = document.body;
+            const currentTheme = body.classList.contains('dark') ? 'dark' : 'light';
+            const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+            
+            if (newTheme === 'dark') {
+                body.classList.add('dark');
+                themeIcon.classList.remove('fa-moon');
+                themeIcon.classList.add('fa-sun');
+            } else {
+                body.classList.remove('dark');
+                themeIcon.classList.remove('fa-sun');
+                themeIcon.classList.add('fa-moon');
+            }
+            
+            try {
+                localStorage.setItem(THEME_STORAGE_KEY, newTheme);
+            } catch (e) {
+                console.error("Failed to save theme preference.", e);
+            }
+        }
+
         // Event listeners
         searchButton.addEventListener('click', () => {
             searchVideos(searchInput.value.trim());
@@ -483,27 +544,61 @@
         });
 
         shareButton.addEventListener('click', () => {
-            const videoLink = videoPlayer.src;
-            if (videoLink) {
-                // Create a temporary input element to copy the text
-                const tempInput = document.createElement('input');
-                tempInput.value = videoLink;
-                document.body.appendChild(tempInput);
-                tempInput.select();
-                try {
-                    document.execCommand('copy');
-                    showModal("लिंक कॉपी हो गया!");
-                } catch (err) {
-                    showModal("लिंक कॉपी करने में विफल रहा। कृपया इसे मैन्युअल रूप से कॉपी करें: " + videoLink);
+            if (currentVideoId) {
+                const videoLink = YOUTUBE_VIDEO_URL + currentVideoId;
+                if (navigator.clipboard && navigator.clipboard.writeText) {
+                    navigator.clipboard.writeText(videoLink)
+                        .then(() => showModal("लिंक सफलतापूर्वक कॉपी किया गया!"))
+                        .catch(err => {
+                            console.error('लिंक कॉपी करने में विफल रहा:', err);
+                            showModal("लिंक कॉपी करने में विफल रहा।");
+                        });
+                } else {
+                    // Fallback for browsers that don't support navigator.clipboard
+                    const tempInput = document.createElement('textarea');
+                    tempInput.value = videoLink;
+                    document.body.appendChild(tempInput);
+                    tempInput.select();
+                    try {
+                        document.execCommand('copy');
+                        showModal("लिंक सफलतापूर्वक कॉपी किया गया!");
+                    } catch (err) {
+                        showModal("लिंक कॉपी करने में विफल रहा।");
+                    }
+                    document.body.removeChild(tempInput);
                 }
-                document.body.removeChild(tempInput);
             } else {
                 showModal("पहले एक वीडियो चलाएं।");
             }
         });
 
-        downloadButton.addEventListener('click', () => {
-            showModal("YouTube की नीतियों के कारण, हम सीधे वीडियो डाउनलोड नहीं कर सकते हैं। वीडियो डाउनलोड करने के लिए, आपको एक अलग टूल का उपयोग करना होगा। आप Google पर 'YouTube video downloader' खोज सकते हैं।");
+        copyLinkButton.addEventListener('click', () => {
+            if (currentVideoId) {
+                const videoLink = YOUTUBE_VIDEO_URL + currentVideoId;
+                if (navigator.clipboard && navigator.clipboard.writeText) {
+                    navigator.clipboard.writeText(videoLink)
+                        .then(() => showModal("लिंक सफलतापूर्वक कॉपी किया गया!"))
+                        .catch(err => {
+                            console.error('लिंक कॉपी करने में विफल रहा:', err);
+                            showModal("लिंक कॉपी करने में विफल रहा।");
+                        });
+                } else {
+                    // Fallback for browsers that don't support navigator.clipboard
+                    const tempInput = document.createElement('textarea');
+                    tempInput.value = videoLink;
+                    document.body.appendChild(tempInput);
+                    tempInput.select();
+                    try {
+                        document.execCommand('copy');
+                        showModal("लिंक सफलतापूर्वक कॉपी किया गया!");
+                    } catch (err) {
+                        showModal("लिंक कॉपी करने में विफल रहा।");
+                    }
+                    document.body.removeChild(tempInput);
+                }
+            } else {
+                showModal("पहले एक वीडियो चलाएं।");
+            }
         });
 
         // Description dropdown event listener
@@ -517,6 +612,9 @@
                 toggleIcon.classList.add('fa-chevron-down');
             }
         });
+
+        // New theme toggle event listener
+        themeToggle.addEventListener('click', toggleTheme);
 
         // PWA (Progressive Web App) related code
         window.addEventListener('beforeinstallprompt', (e) => {
@@ -538,20 +636,4 @@
                 deferredPrompt.userChoice.then((choiceResult) => {
                     if (choiceResult.outcome === 'accepted') {
                         showModal('ऐप सफलतापूर्वक होम स्क्रीन पर जोड़ा गया!');
-                        // Reset deferredPrompt after it's been used
-                        deferredPrompt = null; 
-                    } else {
-                        showModal('इंस्टॉलेशन रद्द कर दिया गया।');
-                    }
-                });
-            }
-        });
-        
-        // Initial setup on page load
-        window.addEventListener('load', () => {
-            showPage('home-page');
-            searchVideos('Latest Movies');
-        });
-    </script>
-</body>
-</html>
+                        // Reset deferredPrompt after it'
